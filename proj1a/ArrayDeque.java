@@ -17,6 +17,8 @@ public class ArrayDeque<T> {
         items[nextFirst] = item;
         if (nextFirst == 0) {
             nextFirst = items.length - 1;
+        } else {
+            nextFirst -= 1;
         }
         size += 1;
     }
@@ -92,7 +94,7 @@ public class ArrayDeque<T> {
             ptr += 1;
         }
         nextFirst = newItems.length - 1;
-        nextLast = size + 1;
+        nextLast = size;
         items = newItems;
     }
 
@@ -106,7 +108,7 @@ public class ArrayDeque<T> {
             ptr += 1;
         }
         nextFirst = newItems.length - 1;
-        nextLast = size + 1;
+        nextLast = size;
         items = newItems;
     }
 }
