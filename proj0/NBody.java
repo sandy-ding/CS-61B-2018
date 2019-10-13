@@ -1,5 +1,5 @@
 public class NBody {
-	public static String bg = "images/starfield.jpg";
+	private static String bg = "images/starfield.jpg";
 
 	public static void main(String[] args){
 		// read args
