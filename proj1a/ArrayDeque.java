@@ -15,7 +15,9 @@ public class ArrayDeque<T> {
         this.resizeBigger();
 
         items[nextFirst] = item;
-        nextFirst -= 1;
+        if (nextFirst == 0) {
+            nextFirst = items.length - 1;
+        }
         size += 1;
     }
 
@@ -23,7 +25,7 @@ public class ArrayDeque<T> {
         this.resizeBigger();
 
         items[nextLast] = item;
-        nextLast += 1;
+        nextLast = items.length % (nextLast + 1);
         size += 1;
     }
 
@@ -36,7 +38,7 @@ public class ArrayDeque<T> {
     }
 
     public void printDeque() {
-        if (this.isEmpty()) return;
+        if (this.isEmpty()) { return; }
 
         int ptr = nextFirst + 1;
         for (int i = 0; i < size; i++) {
@@ -47,37 +49,41 @@ public class ArrayDeque<T> {
     }
 
     public T removeFirst() {
-        if (this.isEmpty()) return null;
+        if (this.isEmpty()) { return null; }
+
+        nextFirst = items.length % (nextFirst + 1);
+        T removedFirst = items[nextFirst];
+        items[nextFirst] = null;
+        size -= 1;
 
         this.resizeSmaller();
-
-        T removedFirst = items[nextFirst + 1];
-        items[nextFirst + 1] = null;
-        nextFirst += 1;
-        size -= 1;
         return removedFirst;
     }
 
     public T removeLast() {
-        if (this.isEmpty()) return null;
+        if (this.isEmpty()) { return null; }
+
+        if (nextLast == 0) {
+            nextLast = items.length - 1;
+        } else {
+            nextLast -= 1;
+        }
+        T removedLast = items[nextLast];
+        items[nextLast] = null;
+        size -= 1;
 
         this.resizeSmaller();
-
-        T removedLast = items[nextLast - 1];
-        items[nextLast - 1] = null;
-        nextLast -= 1;
-        size -= 1;
         return removedLast;
     }
 
     public T get(int index) {
-        if (index >= size) return null;
+        if (index >= size) { return null; }
 
         return items[(nextFirst + 1 + index) % items.length];
     }
 
     private void resizeBigger() {
-        if (size != items.length) return;
+        if (size != items.length) { return; }
 
         T[] newItems = (T[]) new Object[items.length * 2];
         int ptr = nextFirst + 1;
@@ -91,7 +97,7 @@ public class ArrayDeque<T> {
     }
 
     private void resizeSmaller() {
-        if (items.length < 16 || (float) size / items.length >= 0.25) return;
+        if (items.length < 16 || (float) size / items.length >= 0.25) { return; }
 
         T[] newItems = (T[]) new Object[size * 2];
         int ptr = nextFirst + 1;
