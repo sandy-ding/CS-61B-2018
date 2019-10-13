@@ -40,7 +40,9 @@ public class ArrayDeque<T> {
     }
 
     public void printDeque() {
-        if (this.isEmpty()) { return; }
+        if (this.isEmpty()) {
+            return;
+        }
 
         int ptr = nextFirst + 1;
         for (int i = 0; i < size; i++) {
@@ -51,7 +53,9 @@ public class ArrayDeque<T> {
     }
 
     public T removeFirst() {
-        if (this.isEmpty()) { return null; }
+        if (this.isEmpty()) {
+            return null;
+        }
 
         nextFirst = items.length % (nextFirst + 1);
         T removedFirst = items[nextFirst];
@@ -63,7 +67,9 @@ public class ArrayDeque<T> {
     }
 
     public T removeLast() {
-        if (this.isEmpty()) { return null; }
+        if (this.isEmpty()) {
+            return null;
+        }
 
         if (nextLast == 0) {
             nextLast = items.length - 1;
@@ -79,16 +85,20 @@ public class ArrayDeque<T> {
     }
 
     public T get(int index) {
-        if (index >= size) { return null; }
+        if (index >= size || this.isEmpty()) {
+            return null;
+        }
 
         return items[(nextFirst + 1 + index) % items.length];
     }
 
     private void resizeBigger() {
-        if (size != items.length) { return; }
+        if (size != items.length) {
+            return;
+        }
 
         T[] newItems = (T[]) new Object[items.length * 2];
-        int ptr = nextFirst + 1;
+        int ptr = items.length % (nextLast + 1);
         for (int i = 0; i < size; i++) {
             newItems[i] = items[ptr % items.length];
             ptr += 1;
@@ -99,10 +109,12 @@ public class ArrayDeque<T> {
     }
 
     private void resizeSmaller() {
-        if (items.length < 16 || (float) size / items.length >= 0.25) { return; }
+        if (items.length < 16 || (float) size / items.length >= 0.25) {
+            return;
+        }
 
         T[] newItems = (T[]) new Object[size * 2];
-        int ptr = nextFirst + 1;
+        int ptr = items.length % (nextLast + 1);
         for (int i = 0; i < size; i++) {
             newItems[i] = items[ptr % items.length];
             ptr += 1;
