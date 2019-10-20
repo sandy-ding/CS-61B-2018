@@ -1,5 +1,5 @@
 /** Performs some basic linked list tests. */
-public class LinkedListDequeTest {
+public class ArrayDequeTest {
 	
 	/* Utility method for printing out empty checks. */
 	public static boolean checkEmpty(boolean expected, boolean actual) {
@@ -36,8 +36,6 @@ public class LinkedListDequeTest {
 	public static void addIsEmptySizeTest() {
 		System.out.println("Running add/isEmpty/Size test.");
 
-//		LinkedListDeque<String> lld1 = new LinkedListDeque<String>();
-
 		ArrayDeque<String> lld1 = new ArrayDeque<String>();
 
 		boolean passed = checkEmpty(true, lld1.isEmpty());
@@ -67,8 +65,6 @@ public class LinkedListDequeTest {
 
 		System.out.println("Running add/remove test.");
 
-//		LinkedListDeque<Integer> lld1 = new LinkedListDeque<Integer>();
-
 		ArrayDeque<Integer> lld1 = new ArrayDeque<Integer>();
 		// should be empty 
 		boolean passed = checkEmpty(true, lld1.isEmpty());
@@ -81,6 +77,60 @@ public class LinkedListDequeTest {
 		// should be empty 
 		passed = checkEmpty(true, lld1.isEmpty()) && passed;
 
+		lld1.addLast(10);
+		lld1.removeLast();
+		passed = checkEmpty(true, lld1.isEmpty()) && passed;
+
+		printTestStatus(passed);
+
+	}
+
+	/** Adds an item, then removes an item, and ensures that dll is empty afterwards. */
+	public static void resizeTest() {
+
+		System.out.println("Running resize test.");
+
+		ArrayDeque<Integer> lld1 = new ArrayDeque<Integer>();
+		// should be empty
+		boolean passed = checkEmpty(true, lld1.isEmpty());
+
+		lld1.addFirst(8);
+		lld1.addFirst(7);
+		lld1.addFirst(6);
+		lld1.addFirst(5);
+		lld1.addFirst(4);
+		lld1.addFirst(3);
+		lld1.addFirst(2);
+		lld1.addFirst(1);
+		// should not be empty
+		passed = checkSize(8, lld1.size()) && passed;
+
+		lld1.addLast(9);
+		lld1.addLast(10);
+		lld1.addLast(11);
+		lld1.addLast(12);
+		lld1.addLast(13);
+		lld1.addLast(14);
+		lld1.addLast(15);
+		lld1.addLast(16);
+		lld1.addLast(17);
+		lld1.addLast(18);
+		passed = checkSize(18, lld1.size()) && passed;
+
+		lld1.removeLast();
+		lld1.removeLast();
+		lld1.removeLast();
+		lld1.removeLast();
+		lld1.removeLast();
+		lld1.removeLast();
+		lld1.removeLast();
+		lld1.removeLast();
+		lld1.removeLast();
+		lld1.removeLast();
+		lld1.removeLast();
+		lld1.removeLast();
+		passed = 1 == lld1.removeFirst() && passed;
+
 		printTestStatus(passed);
 
 	}
@@ -89,5 +139,6 @@ public class LinkedListDequeTest {
 		System.out.println("Running tests.\n");
 		addIsEmptySizeTest();
 		addRemoveTest();
+		resizeTest();
 	}
 }

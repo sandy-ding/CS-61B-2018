@@ -27,7 +27,7 @@ public class ArrayDeque<T> {
         this.resizeBigger();
 
         items[nextLast] = item;
-        nextLast = items.length % (nextLast + 1);
+        nextLast = (nextLast + 1) % items.length;
         size += 1;
     }
 
@@ -57,7 +57,7 @@ public class ArrayDeque<T> {
             return null;
         }
 
-        nextFirst = items.length % (nextFirst + 1);
+        nextFirst = (nextFirst + 1) % items.length;
         T removedFirst = items[nextFirst];
         items[nextFirst] = null;
         size -= 1;
@@ -98,7 +98,7 @@ public class ArrayDeque<T> {
         }
 
         T[] newItems = (T[]) new Object[items.length * 2];
-        int ptr = items.length % (nextLast + 1);
+        int ptr = (nextFirst + 1) % items.length;
         for (int i = 0; i < size; i++) {
             newItems[i] = items[ptr % items.length];
             ptr += 1;
@@ -114,7 +114,7 @@ public class ArrayDeque<T> {
         }
 
         T[] newItems = (T[]) new Object[size * 2];
-        int ptr = items.length % (nextLast + 1);
+        int ptr = (nextFirst + 1) % items.length;
         for (int i = 0; i < size; i++) {
             newItems[i] = items[ptr % items.length];
             ptr += 1;
