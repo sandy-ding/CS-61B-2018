@@ -36,25 +36,25 @@ public class ArrayDequeTest {
 	public static void addIsEmptySizeTest() {
 		System.out.println("Running add/isEmpty/Size test.");
 
-		ArrayDeque<String> lld1 = new ArrayDeque<String>();
+		ArrayDeque<String> ad = new ArrayDeque<String>();
 
-		boolean passed = checkEmpty(true, lld1.isEmpty());
+		boolean passed = checkEmpty(true, ad.isEmpty());
 
-		lld1.addFirst("front");
+		ad.addFirst("front");
 
 		// The && operator is the same as "and" in Python.
 		// It's a binary operator that returns true if both arguments true, and false otherwise.
-		passed = checkSize(1, lld1.size()) && passed;
-		passed = checkEmpty(false, lld1.isEmpty()) && passed;
+		passed = checkSize(1, ad.size()) && passed;
+		passed = checkEmpty(false, ad.isEmpty()) && passed;
 
-		lld1.addLast("middle");
-		passed = checkSize(2, lld1.size()) && passed;
+		ad.addLast("middle");
+		passed = checkSize(2, ad.size()) && passed;
 
-		lld1.addLast("back");
-		passed = checkSize(3, lld1.size()) && passed;
+		ad.addLast("back");
+		passed = checkSize(3, ad.size()) && passed;
 
 		System.out.println("Printing out deque: ");
-		lld1.printDeque();
+		ad.printDeque();
 
 		printTestStatus(passed);
 
@@ -65,21 +65,21 @@ public class ArrayDequeTest {
 
 		System.out.println("Running add/remove test.");
 
-		ArrayDeque<Integer> lld1 = new ArrayDeque<Integer>();
+		ArrayDeque<Integer> ad = new ArrayDeque<Integer>();
 		// should be empty 
-		boolean passed = checkEmpty(true, lld1.isEmpty());
+		boolean passed = checkEmpty(true, ad.isEmpty());
 
-		lld1.addFirst(10);
+		ad.addFirst(10);
 		// should not be empty 
-		passed = checkEmpty(false, lld1.isEmpty()) && passed;
+		passed = checkEmpty(false, ad.isEmpty()) && passed;
 
-		lld1.removeFirst();
+		ad.removeFirst();
 		// should be empty 
-		passed = checkEmpty(true, lld1.isEmpty()) && passed;
+		passed = checkEmpty(true, ad.isEmpty()) && passed;
 
-		lld1.addLast(10);
-		lld1.removeLast();
-		passed = checkEmpty(true, lld1.isEmpty()) && passed;
+		ad.addLast(10);
+		ad.removeLast();
+		passed = checkEmpty(true, ad.isEmpty()) && passed;
 
 		printTestStatus(passed);
 
@@ -90,46 +90,46 @@ public class ArrayDequeTest {
 
 		System.out.println("Running resize test.");
 
-		ArrayDeque<Integer> lld1 = new ArrayDeque<Integer>();
+		ArrayDeque<Integer> ad = new ArrayDeque<Integer>();
 		// should be empty
-		boolean passed = checkEmpty(true, lld1.isEmpty());
+		boolean passed = checkEmpty(true, ad.isEmpty());
 
-		lld1.addFirst(8);
-		lld1.addFirst(7);
-		lld1.addFirst(6);
-		lld1.addFirst(5);
-		lld1.addFirst(4);
-		lld1.addFirst(3);
-		lld1.addFirst(2);
-		lld1.addFirst(1);
+		ad.addFirst(8);
+		ad.addFirst(7);
+		ad.addFirst(6);
+		ad.addFirst(5);
+		ad.addFirst(4);
+		ad.addFirst(3);
+		ad.addFirst(2);
+		ad.addFirst(1);
 		// should not be empty
-		passed = checkSize(8, lld1.size()) && passed;
+		passed = checkSize(8, ad.size()) && passed;
 
-		lld1.addLast(9);
-		lld1.addLast(10);
-		lld1.addLast(11);
-		lld1.addLast(12);
-		lld1.addLast(13);
-		lld1.addLast(14);
-		lld1.addLast(15);
-		lld1.addLast(16);
-		lld1.addLast(17);
-		lld1.addLast(18);
-		passed = checkSize(18, lld1.size()) && passed;
+		ad.addLast(9);
+		ad.addLast(10);
+		ad.addLast(11);
+		ad.addLast(12);
+		ad.addLast(13);
+		ad.addLast(14);
+		ad.addLast(15);
+		ad.addLast(16);
+		ad.addLast(17);
+		ad.addLast(18);
+		passed = checkSize(18, ad.size()) && passed;
 
-		lld1.removeLast();
-		lld1.removeLast();
-		lld1.removeLast();
-		lld1.removeLast();
-		lld1.removeLast();
-		lld1.removeLast();
-		lld1.removeLast();
-		lld1.removeLast();
-		lld1.removeLast();
-		lld1.removeLast();
-		lld1.removeLast();
-		lld1.removeLast();
-		passed = 1 == lld1.removeFirst() && passed;
+		ad.removeLast();
+		ad.removeLast();
+		ad.removeLast();
+		ad.removeLast();
+		ad.removeLast();
+		ad.removeLast();
+		ad.removeLast();
+		ad.removeLast();
+		ad.removeLast();
+		ad.removeLast();
+		ad.removeLast();
+		ad.removeLast();
+		passed = 1 == ad.removeFirst() && passed;
 
 		printTestStatus(passed);
 
