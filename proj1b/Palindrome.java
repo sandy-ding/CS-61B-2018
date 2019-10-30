@@ -28,6 +28,7 @@ public class Palindrome {
         if (d.size() <= 1) {
             return true;
         }
-        return cc.equalChars((char) d.removeFirst(), (char) d.removeLast()) && isPalindromeHelper(d, cc);
+        return cc.equalChars((char) d.removeFirst(), (char) d.removeLast()) &&
+                isPalindromeHelper(d, cc);
     }
 }

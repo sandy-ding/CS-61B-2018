@@ -8,7 +8,7 @@ public class OffByOne implements CharacterComparator {
         if (x < smallest || x > largest || y < smallest || y > largest) {
             return false;
         }
-        int diff = x - y;
+        int diff = X - Y;
         return Math.abs(diff) == 1;
     }
 }
