@@ -20,46 +20,80 @@ public class Plip extends Creature {
     /** blue color. */
     private int b;
 
-    /** creates plip with energy equal to E. */
+    /**
+     * creates plip with energy equal to E.
+     */
     public Plip(double e) {
         super("plip");
-        r = 0;
-        g = 0;
-        b = 0;
+        r = 99;
+        g = 63;
+        b = 76;
         energy = e;
     }
 
-    /** creates a plip with energy equal to 1. */
+    /**
+     * creates a plip with energy equal to 1.
+     */
     public Plip() {
         this(1);
     }
 
-    /** Should return a color with red = 99, blue = 76, and green that varies
-     *  linearly based on the energy of the Plip. If the plip has zero energy,
-     *  it should have a green value of 63. If it has max energy, it should
-     *  have a green value of 255. The green value should vary with energy
-     *  linearly in between these two extremes. It's not absolutely vital
-     *  that you get this exactly correct.
+    /**
+     * Should return a color with red = 99, blue = 76, and green that varies
+     * linearly based on the energy of the Plip. If the plip has zero energy,
+     * it should have a green value of 63. If it has max energy, it should
+     * have a green value of 255. The green value should vary with energy
+     * linearly in between these two extremes. It's not absolutely vital
+     * that you get this exactly correct.
      */
     public Color color() {
-        g = 63;
+        g = 63 + (int) Math.round(96 * energy);
         return color(r, g, b);
     }
 
-    /** Do nothing with C, Plips are pacifists. */
+    /**
+     * Do nothing with C, Plips are pacifists.
+     */
     public void attack(Creature c) {
+        // do nothing.
     }
 
-    /** Plips should lose 0.15 units of energy when moving. If you want to
-     *  to avoid the magic number warning, you'll need to make a
-     *  private static final variable. This is not required for this lab.
+    private void energyCheck() {
+        if (energy > 2) {
+            energy = 2;
+        }
+        if (energy < 0) {
+            energy = 0;
+        }
+    }
+
+    /**
+     * Plips should lose 0.15 units of energy when moving. If you want to
+     * to avoid the magic number warning, you'll need to make a
+     * private static final variable. This is not required for this lab.
      */
     public void move() {
+        energy -= 0.15;
+        energyCheck();
     }
 
 
-    /** Plips gain 0.2 energy when staying due to photosynthesis. */
+    /**
+     * Plips gain 0.2 energy when staying due to photosynthesis.
+     */
     public void stay() {
+        energy += 0.2;
+        energyCheck();
+    }
+
+    /**
+     * Plips and their offspring each get 50% of the energy, with none
+     * lost to the process. Now that's efficiency! Returns a baby
+     * Plip.
+     */
+    public Plip replicate() {
+        energy *= 0.5;
+        return new Plip(energy);
     }
 
     /** Plips and their offspring each get 50% of the energy, with none
