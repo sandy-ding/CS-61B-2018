@@ -19,7 +19,14 @@ public class Plip extends Creature {
     private int g;
     /** blue color. */
     private int b;
+    /** probability of taking a move when ample space available. */
+    private double moveProbability = 0.5;
+    /** fraction of energy to retain when replicating. */
+    private double repEnergyRetained = 0.5;
+    /** fraction of energy to bestow upon offspring. */
+    private double repEnergyGiven = 0.5;
 
+    private String enermyName = "clorus";
     /**
      * creates plip with energy equal to E.
      */
@@ -92,16 +99,9 @@ public class Plip extends Creature {
      * Plip.
      */
     public Plip replicate() {
-        energy *= 0.5;
-        return new Plip(energy);
-    }
-
-    /** Plips and their offspring each get 50% of the energy, with none
-     *  lost to the process. Now that's efficiency! Returns a baby
-     *  Plip.
-     */
-    public Plip replicate() {
-        return this;
+        double childEnergy = energy * repEnergyGiven;
+        energy *= repEnergyRetained;
+        return new Plip(childEnergy);
     }
 
     /** Plips take exactly the following actions based on NEIGHBORS:
@@ -115,7 +115,25 @@ public class Plip extends Creature {
      *  for an example to follow.
      */
     public Action chooseAction(Map<Direction, Occupant> neighbors) {
+        List<Direction> empties = getNeighborsOfType(neighbors, "empty");
+        if (empties.size() > 0 ) {
+            // replicate
+            if (energy > 1) {
+                Direction moveDir = empties.get(0);
+                return new Action(Action.ActionType.REPLICATE, moveDir);
+            }
+            // move
+            for (Map.Entry<Direction, Occupant> entry : neighbors.entrySet()) {
+                String neighborName = entry.getValue().name();
+                if (neighborName.equals(enermyName)) {
+                    if (HugLifeUtils.random() < moveProbability) {
+                        Direction moveDir = HugLifeUtils.randomEntry(empties);
+                        return new Action(Action.ActionType.MOVE, moveDir);
+                    }
+                }
+                break;
+            }
+        }
         return new Action(Action.ActionType.STAY);
     }
-
 }
