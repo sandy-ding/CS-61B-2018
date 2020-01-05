@@ -1,16 +1,24 @@
 package synthesizer;
+import edu.princeton.cs.algs4.StdOut;
 import java.util.Iterator;
 
 //TODO: Make sure to make this class and all of its methods public
-public class ArrayRingBuffer<T> implements BoundedQueue<T> {
+public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
     /* Index for the next dequeue or peek. */
     private int first;            // index for the next dequeue or peek
     /* Index for the next enqueue. */
     private int last;
     /* Array for storing the buffer data. */
     private T[] rb;
-    private int fillCount;
-    private int capacity;
+
+    private class rbIterator implements Iterator<T> {
+        public boolean hasNext() {
+            return !isEmpty();
+        }
+        public T next() {
+            return dequeue();
+        }
+    }
 
     /**
      * Create a new ArrayRingBuffer with the given capacity.
@@ -23,21 +31,12 @@ public class ArrayRingBuffer<T> implements BoundedQueue<T> {
         this.capacity = capacity;
     }
 
-    @Override
-    public int capacity() {
-     return this.capacity;
-    }
-
-    @Override
-    public int fillCount() {
-        return this.fillCount;
-    }
-
     /**
      * Adds x to the end of the ring buffer. If there is no room, then
      * throw new RuntimeException("Ring buffer overflow"). Exceptions
      * covered Monday.
      */
+    @Override
     public void enqueue(T x) {
         if (isFull()) {
             throw new RuntimeException("Ring buffer overflow");
@@ -52,6 +51,7 @@ public class ArrayRingBuffer<T> implements BoundedQueue<T> {
      * throw new RuntimeException("Ring buffer underflow"). Exceptions
      * covered Monday.
      */
+    @Override
     public T dequeue() {
         if (isEmpty()) {
             throw new RuntimeException("Ring buffer underflow");
@@ -59,20 +59,23 @@ public class ArrayRingBuffer<T> implements BoundedQueue<T> {
         T item = rb[first];
         rb[first] = null;
         fillCount -= 1;
-        if (first == 0) {
-            first = capacity - 1;
-        } else {
-            first -= 1;
-        }
+        first = (first + 1) % capacity;
         return item;
     }
 
     /**
      * Return oldest item, but don't remove it.
      */
+    @Override
     public T peek() {
+        if (isEmpty()) {
+            throw new RuntimeException("Ring buffer underflow");
+        }
         return rb[first];
     }
 
-    // TODO: When you get to part 5, implement the needed code to support iteration.
+    @Override
+    public Iterator iterator() {
+        return new rbIterator();
+    }
 }
