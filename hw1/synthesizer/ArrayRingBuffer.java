@@ -1,8 +1,6 @@
 package synthesizer;
-import edu.princeton.cs.algs4.StdOut;
 import java.util.Iterator;
 
-//TODO: Make sure to make this class and all of its methods public
 public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
     /* Index for the next dequeue or peek. */
     private int first;            // index for the next dequeue or peek
@@ -11,12 +9,18 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
     /* Array for storing the buffer data. */
     private T[] rb;
 
-    private class rbIterator implements Iterator<T> {
+    private class RbIterator implements Iterator<T> {
+        private int ptr;
+        public RbIterator() {
+            ptr = first;
+        }
         public boolean hasNext() {
-            return !isEmpty();
+            return ptr != last;
         }
         public T next() {
-            return dequeue();
+            T next = rb[ptr];
+            ptr = (ptr + 1) % capacity;
+            return next;
         }
     }
 
@@ -75,7 +79,7 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
     }
 
     @Override
-    public Iterator iterator() {
-        return new rbIterator();
+    public Iterator<T> iterator() {
+        return new RbIterator();
     }
 }

@@ -17,8 +17,13 @@ public class TestArrayRingBuffer {
         arb.enqueue(2);
         arb.enqueue(3);
         arb.enqueue(4);
-        for (Object t : arb) {
-            assertEquals(expected, t);
+        for (Object i : arb) {
+            int expected2 = 1;
+            for (Object j : arb) {
+                assertEquals(expected2, j);
+                expected2 += 1;
+            }
+            assertEquals(expected, i);
             expected += 1;
         }
     }
