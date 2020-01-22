@@ -4,10 +4,10 @@ import edu.princeton.cs.introcs.StdRandom;
 import edu.princeton.cs.introcs.StdStats;
 
 public class PercolationStats {
-    private double t[];
+    private double[] t;
     private double mean;
     private double stddev;
-    private static final double a = 1.96;
+    private static final double CONSTANT = 1.96;
 
     // perform T independent experiments on an N-by-N grid
     public PercolationStats(int N, int T, PercolationFactory pf) {
@@ -21,7 +21,7 @@ public class PercolationStats {
                     p.open(row, col);
                 }
             }
-            t[i] = p.numberOfOpenSites();
+            t[i] = p.numberOfOpenSites() / (N * N);
         }
         mean = mean();
         stddev = stddev();
@@ -36,10 +36,10 @@ public class PercolationStats {
     }
 
     public double confidenceLow() {
-        return mean - a * stddev / Math.sqrt(t.length);
+        return mean - CONSTANT * stddev / Math.sqrt(t.length);
     }
 
     public double confidenceHigh() {
-        return mean + a * stddev / Math.sqrt(t.length);
+        return mean + CONSTANT * stddev / Math.sqrt(t.length);
     }
 }

@@ -4,8 +4,9 @@ import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
     private int squareSize;
-    private int bottomFirst;
+    private int bottom;
     private int numberOfOpenSites;
+    private boolean percolate;
     private boolean[] isOpenSites;
     private WeightedQuickUnionUF sites;
 
@@ -15,8 +16,10 @@ public class Percolation {
         }
         squareSize = N;
         numberOfOpenSites = 0;
-        bottomFirst = N * N + 1;
-        sites = new WeightedQuickUnionUF(N * (N + 1) + 1);  // +1 for top, +N for invisible bottom row
+        bottom = N * N + 1;
+        percolate = false;
+        // +2 for top and bottom
+        sites = new WeightedQuickUnionUF(N * N + 2);
         isOpenSites = new boolean[N * N + 1];
     }
 
@@ -35,8 +38,8 @@ public class Percolation {
             if (row == 0) {
                 sites.union(n, 0);
             }
-            if (row == squareSize - 1) {
-                sites.union(n, bottomFirst + col);
+            if (row == squareSize - 1 && !percolate) {
+                sites.union(n, bottom);
             }
             if (row > 0 && isOpenSites[n - squareSize]) {
                 sites.union(n, n - squareSize);
@@ -68,12 +71,10 @@ public class Percolation {
     }
 
     public boolean percolates() {
-        for (int i = 0; i < squareSize; i++) {
-            if (!!sites.connected(0, bottomFirst + i)) {
-                return true;
-            };
+        if (!percolate) {
+            percolate  = sites.connected(0, bottom);
         }
-        return false;
+        return percolate;
     }
 
     public static void main(String[] args) {
