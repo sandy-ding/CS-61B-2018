@@ -43,7 +43,6 @@ public class Percolation {
                 sitesWithoutBottom.union(n, 0);
             }
             if (row == squareSize - 1) {
-                System.out.println("union bottom " + row + col);
                 sites.union(n, bottom);
             }
             if (row > 0 && isOpenSites[n - squareSize]) {
