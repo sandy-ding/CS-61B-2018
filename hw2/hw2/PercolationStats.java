@@ -21,7 +21,7 @@ public class PercolationStats {
                     p.open(row, col);
                 }
             }
-            t[i] = p.numberOfOpenSites() / (N * N);
+            t[i] = (double) p.numberOfOpenSites() / (N * N);
         }
         mean = mean();
         stddev = stddev();

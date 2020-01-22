@@ -9,6 +9,7 @@ public class Percolation {
     private boolean percolate;
     private boolean[] isOpenSites;
     private WeightedQuickUnionUF sites;
+    private WeightedQuickUnionUF sitesWithoutBottom;
 
     public Percolation(int N) {
         if (N <= 0) {
@@ -20,6 +21,8 @@ public class Percolation {
         percolate = false;
         // +2 for top and bottom
         sites = new WeightedQuickUnionUF(N * N + 2);
+        // +2 for top only
+        sitesWithoutBottom = new WeightedQuickUnionUF(N * N + 1);
         isOpenSites = new boolean[N * N + 1];
     }
 
@@ -37,21 +40,27 @@ public class Percolation {
             numberOfOpenSites += 1;
             if (row == 0) {
                 sites.union(n, 0);
+                sitesWithoutBottom.union(n, 0);
             }
-            if (row == squareSize - 1 && !percolate) {
+            if (row == squareSize - 1) {
+                System.out.println("union bottom " + row + col);
                 sites.union(n, bottom);
             }
             if (row > 0 && isOpenSites[n - squareSize]) {
                 sites.union(n, n - squareSize);
+                sitesWithoutBottom.union(n, n - squareSize);
             }
             if (row < squareSize - 1 && isOpenSites[n + squareSize]) {
                 sites.union(n, n + squareSize);
+                sitesWithoutBottom.union(n, n + squareSize);
             }
             if (col > 0 && isOpenSites[n - 1]) {
                 sites.union(n, n - 1);
+                sitesWithoutBottom.union(n, n - 1);
             }
             if (col < squareSize - 1 && isOpenSites[n + 1]) {
                 sites.union(n, n + 1);
+                sitesWithoutBottom.union(n, n + 1);
             }
         }
     }
@@ -63,7 +72,7 @@ public class Percolation {
 
     public boolean isFull(int row, int col) {
         int n = checkAndTransfer(row, col);
-        return sites.connected(n, 0);
+        return sitesWithoutBottom.connected(n, 0);
     }
 
     public int numberOfOpenSites() {
