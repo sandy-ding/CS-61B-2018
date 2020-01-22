@@ -6,7 +6,6 @@ public class Percolation {
     private int squareSize;
     private int bottom;
     private int numberOfOpenSites;
-    private boolean percolate;
     private boolean[] isOpenSites;
     private WeightedQuickUnionUF sites;
     private WeightedQuickUnionUF sitesWithoutBottom;
@@ -18,10 +17,9 @@ public class Percolation {
         squareSize = N;
         numberOfOpenSites = 0;
         bottom = N * N + 1;
-        percolate = false;
         // +2 for top and bottom
         sites = new WeightedQuickUnionUF(N * N + 2);
-        // +2 for top only
+        // +1 for top only
         sitesWithoutBottom = new WeightedQuickUnionUF(N * N + 1);
         isOpenSites = new boolean[N * N + 1];
     }
@@ -79,10 +77,7 @@ public class Percolation {
     }
 
     public boolean percolates() {
-        if (!percolate) {
-            percolate  = sites.connected(0, bottom);
-        }
-        return percolate;
+        return sites.connected(0, bottom);
     }
 
     public static void main(String[] args) {
